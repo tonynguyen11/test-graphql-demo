@@ -1,6 +1,9 @@
+const { PubSub } = require('graphql-subscriptions');
 const Club = require('../models/club')
 const Player = require('../models/player')
 const { modelName } = require('../models/club')
+
+const pubsub = new PubSub(); 
 
 const mongoDataMethods = {
     getAllPlayers: async (condition = null) => 
@@ -15,7 +18,16 @@ const mongoDataMethods = {
     addPlayer: async args =>{
         const newPlayer = new Player(args)
         return await newPlayer.save()
-    }
+    },
+    updateClub: async (id, args) => {
+        const updatedClub = await Club.findByIdAndUpdate(id, args, {new: true});
+        return updatedClub;
+    },
+    deleteClub: async id => {
+        const deletedClub = await Club.findByIdAndDelete(id);
+        return deletedClub;
+    },
+    pubsub,
 }
 
 module.exports = mongoDataMethods

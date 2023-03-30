@@ -26,7 +26,13 @@ type Query {
 
 type Mutation {
     addClub(name: String, founded: Int, stadium: String ): Club,
+    updateClub(id: ID!, name: String, founded: Int, stadium: String ): Club,
+    deleteClub(id: ID!): Club,
     addPlayer(name: String, age: Int, clubId: ID! ): Player
+}
+
+type Subscription {
+  clubAdded: Club!
 }
 `
 module.exports = typeDefs
